@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+    tks-technical-test-api:
+        container_name: tks-technical-test-api
+        build:
+            context: .
+            dockerfile: dockerfile
+        env_file:
+            - dev.env
+        depends_on:
+            tks-technical-test-api-postgres:
+                condition: service_healthy
+        volumes:
+            - "${PWD}:/opt/app"
+        ports:
+            - "5050:5050"
+        networks:
+            tks-technical-test-net:
+
+    tks-technical-test-api-postgres:
+        container_name: tks-technical-test-postgres
+        image: postgres:13.4-alpine
+        restart: on-failure
+        volumes:
+            - tks-technical-test-api-postgres-volume:/var/lib/postgresql/data
+        env_file:
+            - dev.env
+        healthcheck:
+            test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        ports:
+            - "5432:5432"
+        networks:
+            tks-technical-test-net:
+
+volumes:
+    tks-technical-test-api-postgres-volume:
+
+networks:
+    tks-technical-test-net:
+        name: tks-technical-test-net

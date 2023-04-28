@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "tks_technical_test"
+version = "0.1.0"
+description = ""
+authors = ["collhuer"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.68.1"
+sqlalchemy = "^1.4.23"
+fastapi-sqlalchemy = "^0.2.1"
+psycopg2-binary = "^2.9.3"
+uvicorn = "^0.21.0"
+python-dotenv = "^1.0.0"
+logging = "^0.4.9.6"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
